@@ -1,0 +1,12 @@
+.sensor-view {
+  display: flex;
+}
+
+.new-sensor {
+  width: 400px;
+  margin-right: 40px;
+}
+
+.sensor-alerts {
+  width: 200px;
+}
