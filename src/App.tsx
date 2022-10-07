@@ -12,6 +12,10 @@ import {
   SettingOutlined,
   UsergroupAddOutlined,
 } from '@ant-design/icons'
+import { Routes, Route, Link } from 'react-router-dom'
+import Dashboard from './components/Dashboard'
+import SensorAddView from './components/Sensors/SensorAddView'
+
 const { Header, Sider, Content } = Layout
 import './style.css'
 
@@ -21,38 +25,23 @@ const App = () => {
     <Layout>
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div className="logo" />{' '}
-        <Menu
-          theme="dark"
-          mode="inline"
-          defaultSelectedKeys={['1']}
-          items={[
-            {
-              key: '1',
-              icon: <DashboardOutlined />,
-              label: 'DASHBOARD',
-            },
-            {
-              key: '2',
-              icon: <ProfileOutlined />,
-              label: 'REPORTS',
-            },
-            {
-              key: '3',
-              icon: <FieldTimeOutlined />,
-              label: 'SENSORS',
-            },
-            {
-              key: '4',
-              icon: <UsergroupAddOutlined />,
-              label: 'USERS',
-            },
-            {
-              key: '5',
-              icon: <SettingOutlined />,
-              label: 'SETTINGS',
-            },
-          ]}
-        />
+        <Menu theme="dark" defaultSelectedKeys={['dash']} mode="inline">
+          <Menu.Item key="dash" icon={<DashboardOutlined />}>
+            <Link to="/">DASHBOARD</Link>
+          </Menu.Item>
+          <Menu.Item key="reports" icon={<ProfileOutlined />}>
+            <Link to="/reports">REPORTS</Link>
+          </Menu.Item>
+          <Menu.Item key="sensor" icon={<FieldTimeOutlined />}>
+            <Link to="/sensor">SENSORS</Link>
+          </Menu.Item>
+          <Menu.Item key="users" icon={<UsergroupAddOutlined />}>
+            <Link to="/sensors">USERS</Link>
+          </Menu.Item>
+          <Menu.Item key="settings" icon={<SettingOutlined />}>
+            <Link to="/sensors">SETTINGS</Link>
+          </Menu.Item>
+        </Menu>
       </Sider>
       <Layout className="site-layout">
         <Header className="site-layout-background" style={{ padding: 0 }}>
@@ -68,7 +57,10 @@ const App = () => {
             minHeight: 590,
           }}
         >
-          Content
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/sensor" element={<SensorAddView />} />
+          </Routes>
         </Content>
       </Layout>
     </Layout>
