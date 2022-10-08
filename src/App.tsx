@@ -12,12 +12,16 @@ import {
   SettingOutlined,
   UsergroupAddOutlined,
 } from '@ant-design/icons'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Routes, Route, Link } from 'react-router-dom'
 import Dashboard from './components/Dashboard'
 import SensorAddView from './components/Sensors/SensorAddView'
+import SensorsDetails from './components/Sensors/SensorDetails'
+import './style.css'
 
 const { Header, Sider, Content } = Layout
-import './style.css'
+
+const queryClient = new QueryClient()
 
 const App = () => {
   const [collapsed, setCollapsed] = useState(false)
@@ -57,10 +61,13 @@ const App = () => {
             minHeight: 590,
           }}
         >
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/sensor" element={<SensorAddView />} />
-          </Routes>
+          <QueryClientProvider client={queryClient}>
+            <Routes>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/sensor" element={<SensorAddView />} />
+              <Route path="/sensor/:id" element={<SensorsDetails />} />
+            </Routes>
+          </QueryClientProvider>
         </Content>
       </Layout>
     </Layout>
