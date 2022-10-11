@@ -12,13 +12,15 @@ import {
 } from 'antd'
 import { CheckCircleOutlined, SaveOutlined } from '@ant-design/icons'
 import { useMutation } from '@tanstack/react-query'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { createSensor } from '../../../api/sensorApi'
-import './sensorAddView.css'
+import './sensorEditView.css'
 
 const { Option } = Select
 
-const SensorAddView = () => {
+const SensorEditView = () => {
+  const { state } = useLocation()
+  console.log(state)
   const customers = [
     {
       value: 'customer-1',
@@ -50,24 +52,24 @@ const SensorAddView = () => {
     },
   ]
   const [sensorRegistrationForm, setSensorRegistrationForm] = useState({
-    sensorId: '',
-    location: '',
-    customer: '',
-    minTempTreshold: 0,
-    trackMinTemp: false,
-    maxTempTreshold: 0,
-    trackMaxTemp: false,
+    sensorId: state.data.device_id ?? '',
+    location: state.data.location ?? '',
+    customer: state.data.customer ?? '',
+    minTempTreshold: state.data.min_temp_limit ?? 0,
+    trackMinTemp: state.data.monitor_min_temp ?? false,
+    maxTempTreshold: state.data.max_temp_limit ?? 0,
+    trackMaxTemp: state.data.monitor_max_temp ?? false,
   })
   const navigate = useNavigate()
 
   const { mutate, isLoading } = useMutation(createSensor, {
-    onSuccess: (data) => {
-      console.log(data)
+    onSuccess: () => {
       notification.open({
         message: 'SUCCESS',
-        description: 'New Sesnsor was created sucessfully',
+        description: 'Sesnsor was updated sucessfully',
         icon: <CheckCircleOutlined style={{ color: '#a0d911' }} />,
       })
+      navigate('/')
     },
     onError: () => {
       alert('there was an error')
@@ -130,15 +132,11 @@ const SensorAddView = () => {
     <>
       <div className="sensor-view">
         <div className="new-sensor">
-          <h1>New Sensor</h1>
+          <h1>Edit Sensor - {sensorRegistrationForm.sensorId}</h1>
           <Divider />
           <Form layout="vertical">
             <Form.Item label="Sensor ID">
-              <Input
-                name="sensorId"
-                onChange={addSensorInputHandler}
-                value={sensorRegistrationForm.sensorId}
-              />
+              <h1>{sensorRegistrationForm.sensorId}</h1>
             </Form.Item>
             <Form.Item label="Location">
               <Input
@@ -148,7 +146,10 @@ const SensorAddView = () => {
               />
             </Form.Item>
             <Form.Item label="Customer">
-              <Select onChange={onCustomerChange}>
+              <Select
+                onChange={onCustomerChange}
+                defaultValue={sensorRegistrationForm.customer ?? ''}
+              >
                 {customers.map((customer) => (
                   <Option key={customer.value} value={customer.value}>
                     {customer.name}
@@ -163,7 +164,6 @@ const SensorAddView = () => {
             <h1>Alerts</h1>
             <Divider />
             <Form.Item label="Min. Temp. Treshold">
-              {/* <Input name="minTempTreshold" onChange={addSensorInputHandler} /> */}
               <InputNumber
                 style={{ width: 200 }}
                 name="maxTempTreshold"
@@ -199,7 +199,7 @@ const SensorAddView = () => {
           icon={<SaveOutlined />}
           onClick={addSensorHandler}
         >
-          Add Sensor
+          Update Sensor
         </Button>
         <Button
           disabled={isLoading}
@@ -214,4 +214,4 @@ const SensorAddView = () => {
   )
 }
 
-export default SensorAddView
+export default SensorEditView

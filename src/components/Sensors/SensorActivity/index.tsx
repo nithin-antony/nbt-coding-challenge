@@ -1,22 +1,18 @@
 import React from 'react'
 import { Avatar, Card } from 'antd'
 import { useQuery } from '@tanstack/react-query'
-import axios from 'axios'
 import { UserOutlined } from '@ant-design/icons'
+import moment from 'moment'
+import { getSensorActivity } from '../../../api/sensorApi'
 import { sensorActivityType, sensorIdType } from '../../../types/types'
 import './SensorActivity.css'
 
 const SensorActivity = ({ sensorId }: sensorIdType) => {
   const { isLoading, error, data } = useQuery(
     ['sensorActivity', sensorId],
-    () =>
-      axios
-        .get(`http://localhost:3009/sensor/${sensorId}/events`)
-        .then((res) => {
-          console.log(res.data)
-          return res.data
-        })
+    () => getSensorActivity(sensorId)
   )
+
   const ActivityCard = ({
     description,
     eventName,
@@ -24,10 +20,14 @@ const SensorActivity = ({ sensorId }: sensorIdType) => {
   }: sensorActivityType) => {
     return (
       <>
-        <Avatar icon={<UserOutlined />} />
-        <h1>{description}</h1>
-        <span>{eventName}</span>
-        <span>{time}</span>
+        <div className="sensor-activity">
+          <Avatar icon={<UserOutlined />} />
+          <div className="sensor-activity_info">
+            <span>{eventName.replaceAll('_', ' ')}</span>
+            <span>{moment(Number(time)).fromNow()}</span>
+          </div>
+        </div>
+        <p className="sensor-activity_discription">{description}</p>
       </>
     )
   }

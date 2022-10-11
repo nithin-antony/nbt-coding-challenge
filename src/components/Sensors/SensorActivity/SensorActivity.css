@@ -1,3 +1,18 @@
 .sensor-activity-container {
   width: 45%;
 }
+
+.sensor-activity {
+  display: flex;
+}
+
+.sensor-activity_info {
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+}
+
+.sensor-activity_discription {
+  display: flex;
+  flex-direction: column;
+}

@@ -23,3 +23,10 @@ h1 {
 .site-layout .site-layout-background {
   background: #fff;
 }
+
+.weekly-stats {
+  display: flex;
+  justify-content: space-between;
+  align-self: center;
+  border: 2px solid black;
+}

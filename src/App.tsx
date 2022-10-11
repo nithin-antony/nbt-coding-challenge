@@ -17,6 +17,7 @@ import { Routes, Route, Link } from 'react-router-dom'
 import Dashboard from './components/Dashboard'
 import SensorAddView from './components/Sensors/SensorAddView'
 import SensorsDetails from './components/Sensors/SensorDetails'
+import SensorEditView from './components/Sensors/SensorEditView'
 import './style.css'
 
 const { Header, Sider, Content } = Layout
@@ -66,6 +67,7 @@ const App = () => {
               <Route path="/" element={<Dashboard />} />
               <Route path="/sensor" element={<SensorAddView />} />
               <Route path="/sensor/:id" element={<SensorsDetails />} />
+              <Route path="/sensor-edit/:id" element={<SensorEditView />} />
             </Routes>
           </QueryClientProvider>
         </Content>
